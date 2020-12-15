@@ -28,7 +28,7 @@ db.mongoose
   })
   .catch(err => {
     console.log("Cannot connect to the database!", err);
-    process.exit();
+    // process.exit();
   });
 
 // simple route
