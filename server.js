@@ -33,13 +33,13 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome", process: process.env.MONGOATLASS_URL });
+  res.json({ message: "Welcome" });
   // console.log("hello");
 });
 
-// require("./app/routes/vendors.routes")(app);
-// require("./app/routes/transactions.routes")(app);
-// require("./app/routes/users.routes")(app);
+require("./app/routes/vendors.routes")(app);
+require("./app/routes/transactions.routes")(app);
+require("./app/routes/users.routes")(app);
 
 
 // set port, listen for requests
