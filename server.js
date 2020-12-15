@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome", env: process.env.MONGOATLAS_URL, process: process.env });
+  res.json({ message: "Welcome", process: process.env });
   // console.log("hello");
 });
 
@@ -45,6 +45,6 @@ app.get("/", (req, res) => {
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT} and ${process.env.MONGOATLASS_URL}.`);
+  console.log(`Server is running on port ${PORT} and ${process.env.VAR1}.`);
   console.log(process.env)
 });
