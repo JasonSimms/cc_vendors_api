@@ -24,5 +24,9 @@
     "rest"
   ],
   "author": "JWSimms",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JasonSimms/cc_vendors_api"
+  }
 }
