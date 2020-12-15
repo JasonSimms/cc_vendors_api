@@ -1,4 +1,6 @@
-const dbConfig = require("../config/db.config.js");
+// const dbConfig = require("../config/db.config.js");
+const dbConfig = process.env.MONGOATLAS_URL;
+
 
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
