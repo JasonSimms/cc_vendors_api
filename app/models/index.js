@@ -1,5 +1,5 @@
 // const dbConfig = require("../config/db.config.js");
-const dbConfig = process.env.MONGOATLAS_URL;
+const dbConfig = {url: process.env.MONGOATLAS_URL};
 
 
 const mongoose = require("mongoose");
