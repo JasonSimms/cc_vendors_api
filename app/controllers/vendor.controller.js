@@ -16,7 +16,7 @@ exports.create = (req, res) => {
   const vendor = new Vendor({
     id: uuidv4(),
     description: req.body.description,
-    categery: req.body.category || "new"
+    category: req.body.category || "new"
   });
 
   // Save Vendor in the database

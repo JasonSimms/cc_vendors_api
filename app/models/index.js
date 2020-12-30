@@ -9,6 +9,7 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.vendors = require("./vendor.model.js")(mongoose);
+db.users = require("./user.model.js")(mongoose);
 db.transactions = require("./transaction.model.js")(mongoose);
 
 

@@ -18,12 +18,12 @@ exports.create = (req, res) => {
   // Create a user
   const user = new User({
     id: uuidv4(),
-    username: req.body.username,
+    // username: req.body.username,
     email: req.body.username || null
   });
 
   // Save User in the database
-  User
+  user
     .save(user)
     .then(data => {
       console.log('outcome> ', data)

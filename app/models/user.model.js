@@ -2,8 +2,8 @@ const { v4: uuidv4 } = require('uuid');
 
 
 module.exports = mongoose => {
-    const Vendor = mongoose.model(
-      "vendor",
+    const User = mongoose.model(
+      "user",
       mongoose.Schema(
         {
           id: String,
@@ -14,5 +14,5 @@ module.exports = mongoose => {
       )
     );
   
-    return Vendor;
+    return User;
   };
