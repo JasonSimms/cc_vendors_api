@@ -1,5 +1,5 @@
 // const dbConfig = require("../config/db.config.js");
-const dbConfig = {url: process.env.MONGOATLASS_URL};
+const dbConfig = {url: process.env.MONGOATLASS_URL || "mongodb://localhost:27017/cc_api"};
 
 
 const mongoose = require("mongoose");

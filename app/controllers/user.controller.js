@@ -5,7 +5,10 @@ const { v4: uuidv4 } = require('uuid');
 
 // Create and Save a new Vendor
 exports.create = (req, res) => {
+  console.log('begin,',req.body)
   // Validate request
+  if(req.body.email && !req.body.username) req.body.username = req.body.email
+
   if (!req.body.username) {
     console.log('req,body', req.body)
     res.status(400).send({ message: "username can not be empty!" });
@@ -23,6 +26,7 @@ exports.create = (req, res) => {
   User
     .save(user)
     .then(data => {
+      console.log('outcome> ', data)
       res.send(data);
     })
     .catch(err => {
