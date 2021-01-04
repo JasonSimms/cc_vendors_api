@@ -1,8 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
+const helmet = require('helmet')
 const app = express();
+
+
+// Middleware
+app.use(helmet())
 
 // var corsOptions = {
 //   origin: "http://localhost:3000"
@@ -10,7 +14,6 @@ const app = express();
 
 // app.use(cors(corsOptions));
 app.use(cors());
-
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
@@ -35,9 +38,26 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
+  console.log("thats a get /")
   res.json({ message: "Welcome" });
   // console.log("hello");
 });
+
+const authenticate = (key) => {
+  if(key = "goodKey")return true;
+  else return false
+}
+
+const restrict = (req, res, next) => {
+  console.log(req.headers)
+  if(req.headers.authorization && req.headers.authorization === "goodKey") return next();
+  else {
+    console.log("Access attempt without authorization header");
+    res.status(400).json({ message : "Access Denied without authorization"})
+  }
+}
+
+app.get("/secret",restrict, (req, res) => res.json({ message : "secret content"}));
 
 require("./app/routes/vendors.routes")(app);
 require("./app/routes/transactions.routes")(app);
