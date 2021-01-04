@@ -9,20 +9,20 @@ module.exports = app => {
 
   
     // Retrieve all 
-    // router.get("/", user.findAll);
-    router.get("/", ()=>console.log('i hear you already....'));
+    router.get("/", user.findAll);
+    // router.get("/", ()=>console.log('i hear you already....'));
    
     // Retrieve a single with id
-    // router.get("/:id", user.findOne);
+    router.get("/:id", user.findOne);
   
     // Update a single with id
-    // router.put("/:id", user.update);
+    router.put("/:id", user.update);
   
     // Delete a single with id
-    // router.delete("/:id", user.delete);
+    router.delete("/:id", user.delete);
   
     // Delete All
-    // router.delete("/", user.deleteAll);
+    router.delete("/", user.deleteAll);
   
     app.use('/api/user', router);
   };
