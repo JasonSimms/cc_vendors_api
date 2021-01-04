@@ -38,34 +38,91 @@ exports.create = (req, res) => {
 // Retrieve all transaction from the database.
 exports.findAll = (req, res) => {
   Transaction.find()
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while retrieving tutorials."
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tutorials."
+      });
     });
-  });
 };
 
-// Find a single Tutorial with an id
+// Find a single  with an id
 exports.findOne = (req, res) => {
-
+  console.log("DEBUG>>", req.body, req.params)
+  Transaction.find({ id: req.params.id || "1337" })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving vendors."
+      });
+    });
 };
 
-// Update a Tutorial by the id in the request
+// Update a  by the id in the request
 exports.update = (req, res) => {
-
+  console.log("DEBUG>>", req.body, req.params)
+  const query = { id: req.params.id };
+  const update = req.body;
+  const options = { new: true };
+  Transaction.updateOne(query, update, options)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving vendors."
+      });
+    });
 };
 
-// Delete a Tutorial with the specified id in the request
+// Delete a  with the specified id in the request
 exports.delete = (req, res) => {
+  console.log("DEBUG>>", req.body, req.params)
+  const query = { id: req.params.id };
+  const options = {};
+  Transaction.deleteOne(query, options)
+    .then(data => {
+      if (!data.deletedCount || data.deletedCount !== 1) console.log("Nothing Deleted")
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving vendors."
+      });
+    });
 
 };
 
-// Delete all Tutorials from the database.
+// Delete all  from the database.
 exports.deleteAll = (req, res) => {
+  if (!req.body || req.body.password !== "1337") {
+    console.log("Attempted delete all without password!");
+    res.status(401).send({ message: "You shall not pass" });
+    return;
+  }
+  else {
 
+    const query = {};
+    const options = {};
+    Transaction.deleteMany(query, options)
+      .then(data => {
+        console.log('DELETE ALL >>', data)
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving vendors."
+        });
+      });
+  }
 };
 

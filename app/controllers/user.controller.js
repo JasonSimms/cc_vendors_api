@@ -3,9 +3,9 @@ const User = db.users;
 const { v4: uuidv4 } = require('uuid');
 
 
-// Create and Save a new Vendor
+// Create and Save a new s
 exports.create = (req, res) => {
-  console.log('begin,', req.body)
+  console.log("DEBUG>>", req.body, req.params)
   // Validate request
   if (req.body.email && !req.body.username) req.body.username = req.body.email
 
@@ -51,7 +51,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Vendor with an id
+// Find a single  with an id
 exports.findOne = (req, res) => {
   console.log("DEBUG>>", req.body, req.params)
   User.find({ id: req.params.id || "1337" })
@@ -66,7 +66,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Vendor by the id in the request
+// Update a  by the id in the request
 exports.update = (req, res) => {
   console.log("DEBUG>>", req.body, req.params)
   const query = { id: req.params.id };
@@ -85,14 +85,14 @@ exports.update = (req, res) => {
 
 };
 
-// Delete a Vendor with the specified id in the request
+// Delete a with the specified id in the request
 exports.delete = (req, res) => {
   console.log("DEBUG>>", req.body, req.params)
   const query = { id: req.params.id };
   const options = {};
   User.deleteOne(query, options)
     .then(data => {
-      if(!data.deletedCount || data.deletedCount !== 1)console.log("Nothing Deleted")
+      if (!data.deletedCount || data.deletedCount !== 1) console.log("Nothing Deleted")
       res.send(data);
     })
     .catch(err => {
@@ -104,42 +104,28 @@ exports.delete = (req, res) => {
 
 };
 
-// Delete all vendors from the database.
+// Delete all from the database.
 exports.deleteAll = (req, res) => {
-  if(!req.body || req.body.password !== "1337"){
+  if (!req.body || req.body.password !== "1337") {
     console.log("Attempted delete all without password!");
-    res.status(401).send({message : "You shall not pass"});
+    res.status(401).send({ message: "You shall not pass" });
     return;
   }
-  else{
+  else {
 
     const query = {};
     const options = {};
     User.deleteMany(query, options)
-    .then(data => {
-      console.log('DELETE ALL >>',data)
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-        err.message || "Some error occurred while retrieving vendors."
+      .then(data => {
+        console.log('DELETE ALL >>', data)
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving vendors."
+        });
       });
-    });
   }
 
 };
-
-// // Find all published vendors
-// exports.findAllPublished = (req, res) => {
-//   Vendor.find({ published: true })
-//     .then(data => {
-//       res.send(data);
-//     })
-//     .catch(err => {
-//       res.status(500).send({
-//         message:
-//           err.message || "Some error occurred while retrieving vendors."
-//       });
-//     });
-// };
