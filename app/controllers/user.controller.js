@@ -1,6 +1,10 @@
 const db = require("../models");
 const User = db.users;
 const { v4: uuidv4 } = require('uuid');
+const _ = require("lodash");
+const jwt = require("jsonwebtoken");
+const secret = require("../config/db.config").secret;
+const { jwtauth } = require("../utils/jwtlib");
 
 
 // Create and Save a new s
@@ -127,5 +131,88 @@ exports.deleteAll = (req, res) => {
         });
       });
   }
+}
 
-};
+
+//Register a user from front End
+exports.register = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    let newUser = new User();
+    newUser.username = username;
+    newUser.email = email;
+    newUser.password = newUser.generatePasswordHash(password);
+
+    newUser = await newUser.save();
+    newUser = _.pick(newUser, User.returnable);
+    newUser.token = jwt.sign({
+      _id: newUser._id,
+    }, secret, { expiresIn: "10d" });
+
+    console.log(newUser);
+    return res.send(newUser);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+}
+
+
+//Login
+exports.login = async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    let user = await User.findOne({ "email": email });
+    if (user) {
+      let isUserAuthenticated = user.validatePassword(password, user.password);
+      if (isUserAuthenticated) {
+        user.token = jwt.sign({
+          id: user._id
+        },
+          secret,
+          { expiresIn: "10d" })
+        res.status(200).json({ status: 200, data: _.pick(user, User.returnable) })
+      } else {
+        res.status(400).json({ status: 400, message: "Password is incorrect" })
+      }
+    } else {
+      res.status(400).json({ status: 400, message: "User with email " + email + " not found" })
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(e);
+  }
+}
+
+//Profile
+exports.profile = async (req, res)=> {
+  try {
+    let user = await User.findOne({
+      _id: req.params.userId,
+    });
+    res.status(200).json({
+      data: _.pick(user, User.publicReturnable),
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: "Some error occured",
+      err,
+    });
+  }
+}
+
+//Profile
+exports.test = async (req, res)=> {
+  try {
+   console.log('hello world', req.headers);
+   jwtauth(req, res, () => console.log('woot'))
+  //  res.send('bingo')
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message: "Some error occured",
+      err,
+    });
+  }
+}
