@@ -23,9 +23,17 @@ let verifyToken = (token, next) => {
   }
 };
 
+let getToken = req =>{
+  if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    return req.headers.authorization.split(' ')[1];
+  } else if(req.cookies && req.cookies.token) {
+    return req.cookies.token;
+  }
+  return null;
+}
+
 let tokenValidation = async (req, res, next) => {
-  let token = req.headers["authorization"];
-  console.log("Do i have a token?>>", token)
+  let token = getToken(req);
   if (token) {
     req.token = token;
     try {

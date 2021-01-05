@@ -1,12 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 const cors = require("cors");
 const helmet = require('helmet')
 const app = express();
 
 
 // Middleware
-app.use(helmet())
+app.use(helmet());
+app.use(cookieParser());
 
 // var corsOptions = {
 //   origin: "http://localhost:3000"

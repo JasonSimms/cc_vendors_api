@@ -1,6 +1,7 @@
 module.exports = app => {
     const user = require("../controllers/user.controller.js");
-  
+    const { jwtauth } = require("../utils/jwtlib");
+
     var router = require("express").Router();
   
     // Create a user
@@ -31,7 +32,7 @@ module.exports = app => {
 
     // Profile
     router.get("/public/:id", user.profile);
-    router.get("/test", user.test );
+    router.get("/test", [jwtauth], user.test );
   
     app.use('/api/user', router);
 

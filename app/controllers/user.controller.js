@@ -171,7 +171,14 @@ exports.login = async (req, res) => {
         },
           secret,
           { expiresIn: "10d" })
-        res.status(200).json({ status: 200, data: _.pick(user, User.returnable) })
+
+          res.cookie('token', user.token);
+          res.send({ status: 200, data: _.pick(user, User.returnable) });
+        // return res.writeHead(200, {
+        //   "Set-Cookie": `token=${user.token}; HttpOnly`,
+        //   "Access-Control-Allow-Credentials": "true"
+        // }).end({ data: _.pick(user, User.returnable)});
+        // .send({ status: 200, data: _.pick(user, User.returnable) })
       } else {
         res.status(400).json({ status: 400, message: "Password is incorrect" })
       }
@@ -185,7 +192,7 @@ exports.login = async (req, res) => {
 }
 
 //Profile
-exports.profile = async (req, res)=> {
+exports.profile = async (req, res) => {
   try {
     let user = await User.findOne({
       _id: req.params.userId,
@@ -203,11 +210,9 @@ exports.profile = async (req, res)=> {
 }
 
 //Profile
-exports.test = async (req, res)=> {
+exports.test = async (req, res) => {
   try {
-   console.log('hello world', req.headers);
-   jwtauth(req, res, () => console.log('woot'))
-  //  res.send('bingo')
+    res.send(req.user);
   } catch (err) {
     console.log(err);
     res.status(400).json({
