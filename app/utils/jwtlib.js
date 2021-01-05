@@ -5,14 +5,10 @@ const _ = require("lodash");
 
 let verifyToken = (token, next) => {
   try {
-    console.log("try this ", secret)
-
     var decoded = jwt.verify(token, secret);
-    console.log("try this 2", secret)
     return { ...decoded, expired: false };
   } catch (err) {
     if (err) {
-        console.log("Whatt err/>",err)
       if (err.name === "TokenExpiredError") {
         var decoded = jwt.decode(token);
         if (decoded) {
@@ -37,7 +33,6 @@ let tokenValidation = async (req, res, next) => {
   if (token) {
     req.token = token;
     try {
-        console.log("here is this...")
       const decodedToken = verifyToken(req.token, next);
       console.log(decodedToken);
       if (!decodedToken) {
@@ -48,7 +43,7 @@ let tokenValidation = async (req, res, next) => {
       } else if (decodedToken.expired) {
         let decoded = jwt.decode(token);
 
-        let user = await User.findById(decoded._id);
+        let user = await User.findById(decoded.id);
 
         user.token = jwt.sign(
           {
@@ -65,12 +60,10 @@ let tokenValidation = async (req, res, next) => {
         console.log("not expired goo...", decodedToken);
         let user = await User.findById(
           decodedToken.id,
-        //   {"username" : "yoMamma"}
         )
-        console.log("found a user ?", user)
+        // console.log("found a user ?", user)
         user.token = req.token;
         req.user = _.pick(user, User.returnable);
-        console.log("all done going to next with req.uesr>>", req.user)
         next();
       }
     } catch (err) {
