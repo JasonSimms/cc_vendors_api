@@ -8,5 +8,6 @@
 * Draft Front-End to review UX
 * Implement authentication on all routes
 * Optimize schemas to use cases
+* Refresh deployment environmentals
 
 
