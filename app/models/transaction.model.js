@@ -11,7 +11,7 @@ module.exports = mongoose => {
           date: String,
           debit: Number,
           credit: Number,
-          user: String
+          userId: String,
         },
         { timestamps: true }
       )

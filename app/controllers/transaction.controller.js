@@ -35,9 +35,16 @@ exports.create = (req, res) => {
     });
 };
 
+// exports.foo = (req, res) => {
+//   console.log('Fool', Object.keys(req), req)
+//   res.send(req.query);
+// }
+
 // Retrieve all transaction from the database.
 exports.findAll = (req, res) => {
-  Transaction.find()
+  console.log('findALL debug >>', req.query)
+  let query = req.query || {};
+  Transaction.find(query)
     .then(data => {
       res.send(data);
     })

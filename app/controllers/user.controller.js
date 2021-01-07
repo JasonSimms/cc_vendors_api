@@ -171,7 +171,7 @@ exports.login = async (req, res) => {
         },
           secret,
           { expiresIn: "10d" })
-
+          console.log('user has logged in:  ', user._id)
           res.cookie('token', user.token);
           res.send({ status: 200, data: _.pick(user, User.returnable) });
         // return res.writeHead(200, {

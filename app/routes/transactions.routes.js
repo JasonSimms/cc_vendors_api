@@ -8,9 +8,11 @@ module.exports = app => {
   
     // Retrieve all 
     router.get("/", transaction.findAll);
+    // router.get("/", transaction.foo);
+
    
     // Retrieve a single with id
-    router.get("/:id", transaction.findOne);
+    // router.get("/:id", transaction.findOne);
   
     // Update a single with id
     router.put("/:id", transaction.update);
