@@ -5,6 +5,7 @@ module.exports = app => {
   
     // Create a Vendor
     router.post("/", transaction.create);
+    router.post("/bulk", transaction.createBulk);
   
     // Retrieve all 
     router.get("/", transaction.findAll);
